@@ -2,15 +2,18 @@ import { defineConfig } from 'astro/config';
 import { i18n, filterSitemapByDefaultLocale } from 'astro-i18n-aut/integration';
 import sitemap from '@astrojs/sitemap';
 
-const defaultLocale = 'en';
+const defaultLocale = 'fr';
 const locales = {
-  en: 'en-US', // the `defaultLocale` value must present in `locales` keys
-  fr: 'fr-CA',
+  fr: 'fr',
+  en: 'en', // the `defaultLocale` value must present in `locales` keys
 };
 
 // https://astro.build/config
 export default defineConfig({
+  base: '/',
+  site: 'http://localhost:4321',
   outDir: '../../dist/apps/my-blog',
+  output: 'static',
   trailingSlash: 'always',
   build: {
     format: 'directory',
