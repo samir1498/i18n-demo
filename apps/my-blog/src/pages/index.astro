@@ -1,11 +1,11 @@
 ---
-import { getLocale, locales } from 'astro-i18n-aut';
+import { getLocale, localeKeys } from 'astro-i18n-aut';
 import Layout from '../layouts/Layout.astro';
 import { useTranslations } from '@simplified/i18n';
 import { translationsMap } from '../i18n';
 
 const locale = getLocale(Astro.url)
-const { t } = useTranslations(locale,Object.keys(locales), translationsMap)
+const { t } = useTranslations(locale, localeKeys, translationsMap)
 ---
 
 <Layout title={t('title')}>
