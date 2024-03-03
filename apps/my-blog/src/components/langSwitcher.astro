@@ -1,24 +1,87 @@
 ---
-import { getLocale } from 'astro-i18n-aut';
+import { getLocale, localeKeys, defaultLocale } from 'astro-i18n-aut';
 
 
 const locale = getLocale(Astro.url)
+const trailingSlash = import.meta.env.VITE_SITE_TRAILING_SLASH 
 ---
 
 	<!-- language switch -->
-<select id="locale">
-	<option value="en" selected={locale === 'en'}>English</option>
-	<option value="fr" selected={locale === 'fr'}>Français</option>
+<select class="select">
+  {localeKeys.map((lang) => (
+    <option value={lang} class="select__option" selected={lang === locale}>
+      {lang}
+    </option>
+  ))}
 </select>
 
-<script>
-	const select = document.getElementById('locale')
+<script define:vars={{defaultLocale, locales: localeKeys, trailingSlash}}>
+
+function handleLanguageChange(e) {
+    // Get the selected language from the event target value
+    const selectedLang = e;
+
+    // Get the current URL and origin
+    const { href, origin } = window.location;
+
+    // Get the list of supported languages
+    const supportedLangs = locales;
+    
+
+    // Remove the origin from the URL
+    const urlWithoutOrigin = href.replace(origin, '');
+
+    // Remove the language path from the URL
+    const urlWithoutOriginLang = supportedLangs.reduce(
+      (acc, lang) => acc.replace(`/${lang}`, ''),
+      urlWithoutOrigin,
+    );
+
+    // Remove the trailing slash from the URL
+    const newUrlWithoutTrailingSlash = urlWithoutOriginLang.replace(/\/$/, '');
+
+    // Create the new URL with the selected language and the modified path
+    let newUrl = `/${selectedLang}${newUrlWithoutTrailingSlash}`;
+
+    // If the selected language is the default locale, remove the language prefix
+    if (selectedLang === defaultLocale) {
+      newUrl = newUrlWithoutTrailingSlash;
+    }
+    
+    // Ensure there's no trailing slash if configured
+    if (trailingSlash) {
+      newUrl += '/';
+    }
+
+    // Redirect the user to the new URL
+    document.documentElement.lang = selectedLang;
+    console.log(newUrl)
+    return newUrl;
+
+  }
+
+	const select = document.querySelector('select')
 	if (select) {
 		select?.addEventListener('change', (event ) => {
-			const locale = (event?.target as HTMLSelectElement)?.value
-			if (locale) {
-				window.location.href = `/${locale}/`
-			}
-		})
+      const url = handleLanguageChange(event.target.value)
+      window.location.href = url
+    }
+    )
 	}
 </script>
+
+<style is:global>
+	.select {
+		padding: 0.5rem;
+		background-color: #222;
+		color: aliceblue;
+		font-weight: bold;
+	}
+	.select__option:hover {
+		background-color: #222;
+	}
+	.select__option {
+		padding: 0.5rem;
+	}
+
+</style>
