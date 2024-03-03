@@ -6,9 +6,9 @@ import { getListFromPath, getStringFromPath } from './utils';
 // Function to provide translations based on selected language
 export function useTranslations<T>(
   lang: string,
-  locales: string[],
   translationsMap: Record<string, T>
-) {
+  ) {
+  const locales = import.meta.env['VITE_DEFAULT_LOCALE']?.split(',') || ['en'];
   // Validate language
   if (!locales.includes(lang)) {
     throw new Error(`Unsupported language: ${lang}`);

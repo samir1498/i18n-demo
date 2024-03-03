@@ -4,7 +4,7 @@ import { useTranslations } from '@simplified/i18n';
 import { translationsMap } from '../i18n';
 
 const locale = getLocale(Astro.url)
-const { t } = useTranslations(locale, localeKeys, translationsMap)
+const { t } = useTranslations(locale, translationsMap)
 
 const trailingSlash = import.meta.env.VITE_SITE_TRAILING_SLASH 
 ---
