@@ -28,16 +28,44 @@ const createPath = (...params: string[]): string => {
 
 const BASE_PATHNAME = import.meta.env['VITE_SITE_BASE'] || '/';
 
+/**
+ * Returns the permalink for a given slug.
+ * - Concatenates the base pathname and the given slug into a single path.
+ * - The resulting path always starts with a leading slash ('/')
+ * - If the trailing slash is enabled in the VITE_SITE_TRAILING_SLASH env var, it is added to the path.
+ * @param slug The slug to be concatenated to the base pathname.
+ * @return The resulting permalink string.
+ */
 export const getPermalink = (slug = ''): string => {
-  const permalink: string = createPath(slug);
-  return createPath(BASE_PATHNAME, permalink);
+  // Concatenate the base pathname and the given slug into a single path
+  const concatPath = createPath(slug);
+  // Prepend the base pathname to the concatenated path
+  const withBasePathname = createPath(BASE_PATHNAME, concatPath);
+  // Return the resulting path with proper trailing slash handling
+  return withBasePathname;
 };
 
+
+/**
+ * Returns the localized permalink for a given slug and locale.
+ * - If the locale is the default locale, the permalink is just the concatenation of the given slug
+ * - Otherwise, the permalink is the concatenation of the locale and the given slug
+ * @param locale The locale to use for the permalink
+ * @param slug The slug to be concatenated to the base pathname.
+ * @return The resulting localized permalink string.
+ */
 export const getLocalizedPermalink = (locale: string, slug = ''): string => {
-  const permalink = getPermalink(slug);
-  return locale === defaultLocale ? permalink : createPath(locale, permalink);
+  // If locale is default, just get the permalink for the slug
+  if (locale === defaultLocale) {
+    const permalink = getPermalink(slug);
+    return permalink;
+  }
+
+  // Otherwise, concatenate the locale and the slug to get the localized permalink
+  const localizedPath = createPath(locale, slug);
+  return localizedPath;
 };
 
-/** */
-export const getLocalizedHomePermalink = (locale: string): string =>
-  getLocalizedPermalink(locale, '/');
+
+
+
