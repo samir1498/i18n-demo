@@ -1,18 +1,18 @@
 ---
 import { getLocale, localeKeys, defaultLocale } from 'astro-i18n-aut';
-
+import { useTranslations } from '@simplified/i18n';
+import { translationsMap } from '../i18n';
 
 const locale = getLocale(Astro.url)
+const { t } = useTranslations(locale, localeKeys, translationsMap)
+
 const trailingSlash = import.meta.env.VITE_SITE_TRAILING_SLASH 
 ---
 
 	<!-- language switch -->
 <select class="select">
-  {localeKeys.map((lang) => (
-    <option value={lang} class="select__option" selected={lang === locale}>
-      {lang}
-    </option>
-  ))}
+  <option value="fr">{t('languages.fr')}</option>
+ <option value="en">{t('languages.en')}</option>
 </select>
 
 <script define:vars={{defaultLocale, locales: localeKeys, trailingSlash}}>

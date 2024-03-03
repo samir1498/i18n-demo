@@ -9,6 +9,10 @@ export const translationsMap = {
       title: 'A propos',
       description: 'Ceci est la page a propos.',
     },
+    languages: {
+      fr: 'Français',
+      en: 'Anglais',
+    },
   },
   en: {
     title: 'Welcome to i18n demo.',
@@ -19,6 +23,10 @@ export const translationsMap = {
     about: {
       title: 'About',
       description: 'This is the about page.',
+    },
+    languages: {
+      fr: 'French',
+      en: 'English',
     },
   },
 };
