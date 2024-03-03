@@ -1,0 +1,24 @@
+---
+import { getLocale } from 'astro-i18n-aut';
+
+
+const locale = getLocale(Astro.url)
+---
+
+	<!-- language switch -->
+<select id="locale">
+	<option value="en" selected={locale === 'en'}>English</option>
+	<option value="fr" selected={locale === 'fr'}>Français</option>
+</select>
+
+<script>
+	const select = document.getElementById('locale')
+	if (select) {
+		select?.addEventListener('change', (event ) => {
+			const locale = (event?.target as HTMLSelectElement)?.value
+			if (locale) {
+				window.location.href = `/${locale}/`
+			}
+		})
+	}
+</script>
