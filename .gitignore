@@ -40,3 +40,5 @@ Thumbs.db
 
 .nx/cache
 .astro
+
+astro_tmp_pages*
