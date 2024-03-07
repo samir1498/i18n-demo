@@ -1,0 +1,24 @@
+{
+  "name": "basic-express",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/basic-express/src",
+  "projectType": "application",
+  "targets": {
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "basic-express:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "basic-express:build:development"
+        },
+        "production": {
+          "buildTarget": "basic-express:build:production"
+        }
+      }
+    }
+  },
+  "tags": []
+}
