@@ -1,14 +1,22 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import styles from './app.module.css';
+import MDEditor from '@uiw/react-md-editor';
+import { useState } from 'react';
 
-import NxWelcome from './nx-welcome';
-
-export function App() {
+export default function App() {
+  const [value, setValue] = useState<string>('**Hello world!!!**');
   return (
-    <div>
-      <NxWelcome title="post-maker" />
+    <div className="container">
+      <MDEditor
+        value={value}
+        onChange={(newValue) => setValue(newValue ?? '')}
+        visibleDragbar={false}
+        commandsFilter={(cmd) => {
+          if (/fullscreen/.test(cmd.name ?? '')) {
+            return false;
+          }
+          return cmd;
+        }}
+      />
+      {/* <MDEditor.Markdown source={value} style={{ whiteSpace: 'pre-wrap' }}  /> */}
     </div>
   );
 }
-
-export default App;
